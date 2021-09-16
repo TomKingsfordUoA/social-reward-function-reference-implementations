@@ -5,32 +5,22 @@ import typing
 import dataclasses_json
 
 
+@dataclasses_json.dataclass_json()
 @dataclasses.dataclass(frozen=True)
 class TimedWord:
-    word: str
-    start_time: float
-    end_time: float
-
-    def to_dict(self) -> typing.Dict[str, typing.Any]:
-        return {
-            "word": self.word,
-            "start_time": f"{self.start_time}s",
-            "end_time": f"{self.end_time}s",
-        }
-
-    @staticmethod
-    def from_dict(d: typing.Dict[str, typing.Any]) -> 'TimedWord':
-        if set(d.keys()) != {"word", "start_time", "end_time"}:
-            raise ValueError()
-        if d["start_time"][-1] != "s":
-            raise ValueError()
-        if d["end_time"][-1] != "s":
-            raise ValueError()
-        return TimedWord(
-            word=d["word"],
-            start_time=float(d["start_time"][:-1]),
-            end_time=float(d["end_time"][:-1]),
+    word: str = dataclasses.field()
+    start_time: float = dataclasses.field(
+        metadata=dataclasses_json.config(
+            encoder=lambda x: f'{x:.0f}s' if int(x) == x else f'{x:.3f}s',
+            decoder=lambda x: float(x[:-1]),
         )
+    )
+    end_time: float = dataclasses.field(
+        metadata=dataclasses_json.config(
+            encoder=lambda x: f'{x:.0f}s' if int(x) == x else f'{x:.3f}s',
+            decoder=lambda x: float(x[:-1]),
+        )
+    )
 
 
 @dataclasses_json.dataclass_json(undefined=dataclasses_json.Undefined.RAISE)

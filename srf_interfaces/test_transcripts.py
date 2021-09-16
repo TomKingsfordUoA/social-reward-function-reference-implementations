@@ -13,6 +13,12 @@ def genea_sample_transcript() -> typing.Generator[str, None, None]:
         yield f.read()
 
 
+@pytest.fixture(scope='session')
+def genea_sample_transcript_cleaned() -> typing.Generator[str, None, None]:
+    with importlib.resources.open_text('srf_interfaces.test_resources', 'GENEA_sample_transcript_cleaned.json') as f:
+        yield f.read()
+
+
 def test_timed_word_to_dict() -> None:
     timed_word = TimedWord(
         word='test',
@@ -21,8 +27,8 @@ def test_timed_word_to_dict() -> None:
     )
     assert timed_word.to_dict() == {
         'word': 'test',
-        'start_time': '1.2s',
-        'end_time': '1.5s',
+        'start_time': '1.200s',
+        'end_time': '1.500s',
     }
 
 
@@ -47,10 +53,12 @@ def test_genea_transcript_from_dict(genea_sample_transcript: str) -> None:
     assert len(genea_transcript._elements[2].alternatives[0].words) == 213
 
 
-def test_genea_transcript_to_dict(genea_sample_transcript: str) -> None:
+def test_genea_transcript_to_dict(genea_sample_transcript: str, genea_sample_transcript_cleaned: str) -> None:
     genea_transcript_json = json.loads(genea_sample_transcript)
+    genea_transcript_cleaned_json = json.loads(genea_sample_transcript_cleaned)
+
     genea_transcript = GeneaTranscript.from_dict(genea_transcript_json)
-    assert genea_transcript.to_dict() == genea_transcript_json
+    assert genea_transcript.to_dict() == genea_transcript_cleaned_json
 
 
 def test_genea_transcript_to_transcript(genea_sample_transcript: str) -> None:
