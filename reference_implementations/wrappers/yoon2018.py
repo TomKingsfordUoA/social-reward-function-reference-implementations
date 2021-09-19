@@ -7,6 +7,7 @@ import sys
 
 import numpy as np
 
+import pymo.data
 import srf_interfaces
 from srf_interfaces.transcripts import Transcript
 import reference_implementations.yoon2018
@@ -27,12 +28,19 @@ def replace_module(name: str, path: str) -> None:
 
 @contextlib.contextmanager
 def manage_dependencies():
+    # Prepend paths to PYTHONPATH:
+    paths = [os.path.join(os.path.dirname(__file__), '../yoon2018/scripts')]
+    for path in reversed(paths):
+        sys.path.insert(0, path)
+
     pymo_path = os.path.join(os.path.dirname(__file__), '../yoon2018/scripts/pymo')
     pymo_modules = [
         os.path.splitext(filename)[0]
         for filename in os.listdir(pymo_path)
     ]
-    pymo_modules = [f'pymo.{filename}' if filename != '__init__' else 'pymo' for filename in pymo_modules]
+    pymo_modules = [f'pymo.{filename}' if filename != '__init__' else 'pymo'
+                    for filename in pymo_modules
+                    if filename != '__pycache__']
     pymo_modules_before = {
         mod_name: sys.modules[mod_name] if mod_name in sys.modules else None
         for mod_name in pymo_modules
@@ -55,10 +63,6 @@ def manage_dependencies():
     import pymo.preprocessing
     pymo.preprocessing.Mirror()
 
-    # Prepend paths to PYTHONPATH:
-    paths = [os.path.join(os.path.dirname(__file__), '../yoon2018/scripts')]
-    for path in reversed(paths):
-        sys.path.insert(0, path)
     yield
 
     # Restore pymo modules
@@ -82,16 +86,18 @@ class Yoon2018(srf_interfaces.CoSpeechGestureGenerator):
             with importlib.resources.path('reference_implementations.yoon2018.resource', 'vocab_cache.pkl') as p_vocab_cache:
                 vocab_cache_path = str(p_vocab_cache)
 
-            self._args, self._generator, self._loss_fn, _, self._out_dim = reference_implementations.yoon2018.utils.train_utils.load_checkpoint_and_model(
-                checkpoint_path,
-                reference_implementations.yoon2018.inference.device,
-            )
+            self._args, self._generator, self._loss_fn, _, self._out_dim = \
+                reference_implementations.yoon2018.utils.train_utils.load_checkpoint_and_model(
+                    checkpoint_path=checkpoint_path,
+                    _device=reference_implementations.yoon2018.inference.device,
+                    verbose=0,
+                )
 
             # load lang_model
             with open(vocab_cache_path, 'rb') as f:
                 self._lang_model = pickle.load(f)
 
-    def generate_gestures(self, transcript: Transcript):
+    def generate_gestures(self, transcript: Transcript) -> pymo.data.MocapData:
         with manage_dependencies():
             word_list = [(timed_word.word, timed_word.start_time, timed_word.end_time)
                          for timed_word in transcript.words
@@ -103,6 +109,7 @@ class Yoon2018(srf_interfaces.CoSpeechGestureGenerator):
                 pose_decoder=self._generator,
                 lang_model=self._lang_model,
                 words=word_list,
+                verbose=0,
             )
 
             # Denormalize

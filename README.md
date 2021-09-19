@@ -17,11 +17,15 @@ These reference implementations exist as submodules, coupled with wrappers to im
 
 ## Getting Started
 
-    # Establish a virtual environment:
-    python3 -m venv venv
-    source venv/bin/activate
-    pip install -r requirements.txt
-    pip install -r build_requirements.txt
+      # Establish a virtual environment:
+      python3 -m venv venv
+      source venv/bin/activate
+      pip install -r requirements.txt
+      pip install -r build_requirements.txt
 
-    # Run tests:
-    pytest .
+      # Run tests and install:
+      pip install . 
+      pytest .
+   
+      # CLI:
+      srf_ref -h

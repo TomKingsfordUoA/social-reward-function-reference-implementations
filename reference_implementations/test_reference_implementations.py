@@ -32,9 +32,7 @@ def test_yoon2018_wrapper(sample_genea_transcript: GeneaTranscript) -> None:
 
     yoon2018 = Yoon2018()
     mocap_data = yoon2018.generate_gestures(transcript=sample_genea_transcript.transcript)
-    assert isinstance(mocap_data, list)
-    assert len(mocap_data) == 1
-    assert mocap_data[0].values.shape == (1190, 174)
+    assert mocap_data.values.shape == (1190, 174)
 
 
 def test_yoon2018_recovers_imports(sample_genea_transcript: GeneaTranscript) -> None:
