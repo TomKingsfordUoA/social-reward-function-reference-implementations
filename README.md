@@ -1,4 +1,4 @@
-# Social Reward Function: Reference Implementations
+# :closed_book: Social Reward Function: Reference Implementations
 
 ## Overview
 
@@ -7,17 +7,13 @@ interface (mapping `srf_interfaces.Transcript` onto `pymo.data.MocapData`).
 
 This library exists to provide reference implementations to be evaluated by the [Social Reward Function](https://github.com/TomKingsfordUoA/social-reward-function).
 
-These reference implementations exist as submodules, coupled with wrappers to 
-
-## Interface and Wrappers
-
-Refer to the `srf_interfaces.interfaces` module for the standard interface.
-
-_Wrappers Coming Soon!_
+These reference implementations exist as submodules, coupled with wrappers to implement a common interface (`srf_interfaces.interfaces.CoSpeechGestureGenerator`).
 
 ## Reference Implementations
 
-_Coming Soon!_
+1. __Yoon2018__ 
+   1. Source: https://github.com/youngwoo-yoon/Co-Speech_Gesture_Generation
+   2. Fork: https://github.com/TomKingsfordUoA/Co-Speech_Gesture_Generation
 
 ## Getting Started
 
