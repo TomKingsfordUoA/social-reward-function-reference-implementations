@@ -1,0 +1,3 @@
+[submodule "reference_implementations/yoon2018"]
+	path = reference_implementations/yoon2018
+	url = git@github.com:TomKingsfordUoA/Co-Speech_Gesture_Generation.git
