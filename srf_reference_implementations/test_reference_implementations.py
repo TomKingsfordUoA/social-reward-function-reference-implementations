@@ -1,4 +1,3 @@
-import contextlib
 import importlib.resources
 import json
 import os
@@ -6,17 +5,9 @@ import sys
 
 import pytest
 
-from .wrappers.yoon2018 import Yoon2018
 from .interfaces.transcripts import GeneaTranscript
-
-
-@contextlib.contextmanager
-def temporarily_prepend_to_python_path(*paths):
-    for path in reversed(paths):
-        sys.path.insert(0, path)
-    yield
-    for path in paths:
-        sys.path.remove(path)
+from .wrappers.gesticulator import Gesticulator
+from .wrappers.yoon2018 import Yoon2018
 
 
 @pytest.fixture()
@@ -48,3 +39,9 @@ def test_yoon2018_recovers_imports(sample_genea_transcript: GeneaTranscript) -> 
     assert os.path.normpath(pymo.__file__) == os.path.normpath(pymo_before.__file__)
     assert os.path.normpath(sys.modules['pymo'].__file__) == os.path.normpath(pymo.__file__)
     assert sys.path == pythonpath_before
+
+
+def test_gesticulator_wrapper(sample_genea_transcript: GeneaTranscript) -> None:
+    gesticulator = Gesticulator()
+    mocap_data = gesticulator.generate_gestures(transcript=sample_genea_transcript.transcript)
+    assert mocap_data.values.shape == (1190, 174)

@@ -1,3 +1,6 @@
 [submodule "srf_reference_implementations/yoon2018"]
 	path = srf_reference_implementations/models/yoon2018
 	url = git@github.com:TomKingsfordUoA/Co-Speech_Gesture_Generation.git
+[submodule "srf_reference_implementations/models/gesticulator"]
+	path = srf_reference_implementations/models/gesticulator
+	url = git@github.com:TomKingsfordUoA/gesticulator.git
