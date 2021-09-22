@@ -6,11 +6,10 @@ import pickle
 import sys
 
 import numpy as np
-
 import pymo.data
-import srf_interfaces
-from srf_interfaces.transcripts import Transcript
-import reference_implementations.yoon2018
+
+from ..interfaces import CoSpeechGestureGenerator, Transcript
+from .. import yoon2018
 
 
 def replace_module(name: str, path: str) -> None:
@@ -78,18 +77,20 @@ def manage_dependencies():
         sys.path.remove(path)
 
 
-class Yoon2018(srf_interfaces.CoSpeechGestureGenerator):
+class Yoon2018(CoSpeechGestureGenerator):
     def __init__(self) -> None:
         with manage_dependencies():
-            with importlib.resources.path('reference_implementations.yoon2018.resource', 'baseline_icra19_checkpoint_100.bin') as p_checkpoint:
+            # nb: importlib.resources doesn't support relative packages hence we resolve an absolute package
+            yoon2018_resources_package = importlib.import_module("..yoon2018.resource", package=__package__).__name__
+            with importlib.resources.path(yoon2018_resources_package, 'baseline_icra19_checkpoint_100.bin') as p_checkpoint:
                 checkpoint_path = str(p_checkpoint)
-            with importlib.resources.path('reference_implementations.yoon2018.resource', 'vocab_cache.pkl') as p_vocab_cache:
+            with importlib.resources.path(yoon2018_resources_package, 'vocab_cache.pkl') as p_vocab_cache:
                 vocab_cache_path = str(p_vocab_cache)
 
             self._args, self._generator, self._loss_fn, _, self._out_dim = \
-                reference_implementations.yoon2018.utils.train_utils.load_checkpoint_and_model(
+                yoon2018.utils.train_utils.load_checkpoint_and_model(
                     checkpoint_path=checkpoint_path,
-                    _device=reference_implementations.yoon2018.inference.device,
+                    _device=yoon2018.inference.device,
                     verbose=0,
                 )
 
@@ -104,7 +105,7 @@ class Yoon2018(srf_interfaces.CoSpeechGestureGenerator):
                          if len(timed_word.word) > 0]
 
             # Inference
-            out_poses = reference_implementations.yoon2018.inference.generate_gestures(
+            out_poses = yoon2018.inference.generate_gestures(
                 args=self._args,
                 pose_decoder=self._generator,
                 lang_model=self._lang_model,
@@ -119,6 +120,6 @@ class Yoon2018(srf_interfaces.CoSpeechGestureGenerator):
             out_poses = np.multiply(out_poses, std) + mean
 
             # Transform poses to MocapData:
-            mocap_data = reference_implementations.yoon2018.inference.make_mocap_data(out_poses)
+            mocap_data = yoon2018.inference.make_mocap_data(out_poses)
 
         return mocap_data

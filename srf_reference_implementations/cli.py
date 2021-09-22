@@ -5,7 +5,7 @@ import os
 import pathlib
 
 from pymo.writers import BVHWriter
-from srf_interfaces.transcripts import GeneaTranscript
+from srf_reference_implementations.interfaces.transcripts import GeneaTranscript
 
 
 def main() -> None:
@@ -26,7 +26,7 @@ def main() -> None:
         '-m', '--model',
         help='Model to use, expressed as an import path to a class implementing the CoSpeechGestureGenerator interface',
         type=str,
-        default='reference_implementations.Yoon2018',
+        default='srf_reference_implementations.Yoon2018',
     )
     args = parser.parse_args()
 

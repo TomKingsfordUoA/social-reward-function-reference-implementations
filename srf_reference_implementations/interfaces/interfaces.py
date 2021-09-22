@@ -1,7 +1,8 @@
 import abc
 
 import pymo.data
-from srf_interfaces.transcripts import Transcript
+
+from .transcripts import Transcript
 
 
 class CoSpeechGestureGenerator(abc.ABC):

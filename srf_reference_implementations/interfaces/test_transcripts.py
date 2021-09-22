@@ -4,18 +4,22 @@ import typing
 
 import pytest
 
-from srf_interfaces.transcripts import TimedWord, GeneaTranscript
+from .transcripts import TimedWord, GeneaTranscript
 
 
 @pytest.fixture(scope='session')
 def genea_sample_transcript() -> typing.Generator[str, None, None]:
-    with importlib.resources.open_text('srf_interfaces.test_resources', 'GENEA_sample_transcript.json') as f:
+    # nb: importlib.resources doesn't support relative packages hence we resolve an absolute package
+    test_resources_package = importlib.import_module(".test_resources", package=__package__).__name__
+    with importlib.resources.open_text(test_resources_package, 'GENEA_sample_transcript.json') as f:
         yield f.read()
 
 
 @pytest.fixture(scope='session')
 def genea_sample_transcript_cleaned() -> typing.Generator[str, None, None]:
-    with importlib.resources.open_text('srf_interfaces.test_resources', 'GENEA_sample_transcript_cleaned.json') as f:
+    # nb: importlib.resources doesn't support relative packages hence we resolve an absolute package
+    test_resources_package = importlib.import_module(".test_resources", package=__package__).__name__
+    with importlib.resources.open_text(test_resources_package, 'GENEA_sample_transcript_cleaned.json') as f:
         yield f.read()
 
 

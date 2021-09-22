@@ -14,7 +14,7 @@ setup(
     url='https://github.com/TomKingsfordUoA/social-reward-function-reference-implementations',
     packages=find_packages(),
     entry_points={
-        'console_scripts': ['srf_ref=reference_implementations.cli:main']
+        'console_scripts': ['srf_ref=srf_reference_implementations.cli:main']
     },
     include_package_data=True,
     install_requires=requirements,
