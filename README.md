@@ -17,6 +17,10 @@ These reference implementations exist as submodules, coupled with wrappers to im
 
 ## Getting Started
 
+      # Clone submodules:
+      git submodule init
+      git submodule update
+
       # Establish a virtual environment:
       python3 -m venv venv
       source venv/bin/activate
