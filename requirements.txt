@@ -13,3 +13,8 @@ transforms3d
 matplotlib
 IPython
 peakutils
+pytorch-lightning==1.4.7
+bvh==0.3
+transformers==4.10.2
+praat-parselmouth==0.4.0
+python-speech-features==0.6

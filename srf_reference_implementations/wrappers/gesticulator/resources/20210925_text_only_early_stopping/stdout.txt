@@ -1,0 +1,144 @@
+Using EarlyStopping                                                                                                                                                                                 [118/1960]
+GPU available: True, used: True                                                                                                                                                                               
+TPU available: False, using: 0 TPU cores                                                               
+IPU available: False, using: 0 IPUs                
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]                                                              
+
+  | Name              | Type       | Params                                                            
+-------------------------------------------------                                                      
+0 | activation        | Tanh       | 0                                                                 
+1 | first_layer       | Sequential | 156 K                                                             
+2 | second_layer      | Sequential | 131 K                                                             
+3 | third_layer       | Sequential | 196 K                                                             
+4 | hidden_to_output  | Sequential | 13.6 K                                                            
+5 | encode_speech     | Sequential | 222 K                                                             
+6 | reduce_speech_enc | Sequential | 2.3 M                                                             
+7 | conditioning_1    | Sequential | 69.6 K                                                            
+8 | loss_fn           | MSELoss    | 0                                                                 
+-------------------------------------------------                                                      
+3.1 M     Trainable params                         
+0         Non-trainable params                     
+3.1 M     Total params                             
+12.275    Total estimated model params size (MB)                                                       
+Epoch 0: 100%|███████████████████████████████████████████████████████| 337/337 [02:27<00:00,  2.30it/s, loss=0.0574, v_num=_run, val_loss=0.0473Metric loss improved. New best score: 0.057                   
+
+Epoch 1: 100%|███████████████████████████████████████████████████████| 337/337 [02:13<00:00,  2.53it/s, loss=0.0568, v_num=_run, val_loss=0.0472Metric loss improved by 0.001 >= min_delta = 0.0. New best sco
+re: 0.057                                          
+Epoch 2: 100%|███████████████████████████████████████████████████████| 337/337 [02:15<00:00,  2.50it/s, loss=0.0519, v_num=_run, val_loss=0.0478Metric loss improved by 0.005 >= min_delta = 0.0. New best sco
+re: 0.052                                          
+Epoch 6: 100%|███████████████████████████████████████████████████████| 337/337 [02:20<00:00,  2.41it/s, loss=0.0571, v_num=_run, val_loss=0.0477Current teacher forcing frequency is:  8                      
+
+Epoch 7:  90%|█████████████████████████████████████████████████▌     | 304/337 [02:38<00:17,  1.92it/s, loss=0.0372, v_num=_run, val_loss=0.0477Current teacher forcing frequency is:  4                      
+                                                             | 0/34 [00:00<?, ?it/s]                   
+Epoch 7: 100%|███████████████████████████████████████████████████████| 337/337 [02:49<00:00,  1.99it/s, loss=0.0372, v_num=_run, val_loss=0.0489Metric loss improved by 0.015 >= min_delta = 0.0. New best sco
+re: 0.037                                          
+Current teacher forcing frequency is:  2                                                               
+Epoch 8:  90%|█████████████████████████████████████████████████▌     | 304/337 [02:34<00:16,  1.97it/s, loss=0.0371, v_num=_run, val_loss=0.0489Current teacher forcing frequency is:  2                      
+                                                             | 0/34 [00:00<?, ?it/s]                   
+Epoch 8: 100%|███████████████████████████████████████████████████████| 337/337 [02:46<00:00,  2.04it/s, loss=0.0371, v_num=_run, val_loss=0.0626Metric loss improved by 0.000 >= min_delta = 0.0. New best sco
+re: 0.037                                          
+Current teacher forcing frequency is:  2                                                               
+Epoch 9:  90%|█████████████████████████████████████████████████▌     | 304/337 [02:35<00:16,  1.96it/s, loss=0.0306, v_num=_run, val_loss=0.0626Current teacher forcing frequency is:  2                      
+                                                             | 0/34 [00:00<?, ?it/s]                   
+Epoch 9: 100%|████████████████████████████████████████████████████████| 337/337 [02:46<00:00,  2.03it/s, loss=0.0306, v_num=_run, val_loss=0.065Metric loss improved by 0.006 >= min_delta = 0.0. New best sco
+re: 0.031                                          
+Current teacher forcing frequency is:  2                                                               
+Epoch 10:  90%|█████████████████████████████████████████████████▌     | 304/337 [02:31<00:16,  2.02it/s, loss=0.0353, v_num=_run, val_loss=0.065Current teacher forcing frequency is:  2                      
+                                                             | 0/34 [00:00<?, ?it/s]                   
+Epoch 10: 100%|██████████████████████████████████████████████████████| 337/337 [02:42<00:00,  2.08it/s, loss=0.0353, v_num=_run, val_loss=0.0652Current teacher forcing frequency is:  2                      
+
+Epoch 11:  90%|████████████████████████████████████████████████▋     | 304/337 [02:30<00:16,  2.03it/s, loss=0.0303, v_num=_run, val_loss=0.0652Current teacher forcing frequency is:  2                      
+                                                             | 0/34 [00:00<?, ?it/s]                   
+Epoch 11: 100%|██████████████████████████████████████████████████████| 337/337 [02:41<00:00,  2.09it/s, loss=0.0303, v_num=_run, val_loss=0.0678Metric loss improved by 0.000 >= min_delta = 0.0. New best sco
+re: 0.030                                          
+Current teacher forcing frequency is:  2                                                               
+Epoch 12:  90%|████████████████████████████████████████████████▋     | 304/337 [02:34<00:16,  1.97it/s, loss=0.0249, v_num=_run, val_loss=0.0678Current teacher forcing frequency is:  2                      
+                                                             | 0/34 [00:00<?, ?it/s]                   
+Epoch 12: 100%|██████████████████████████████████████████████████████| 337/337 [02:46<00:00,  2.03it/s, loss=0.0249, v_num=_run, val_loss=0.0611Metric loss improved by 0.005 >= min_delta = 0.0. New best sco
+re: 0.025                                          
+Current teacher forcing frequency is:  2                                                               
+Epoch 13:  90%|████████████████████████████████████████████████▋     | 304/337 [02:32<00:16,  2.00it/s, loss=0.0229, v_num=_run, val_loss=0.0611Current teacher forcing frequency is:  2
+                                                             | 0/34 [00:00<?, ?it/s]                                                                                                                 [58/1960]
+Epoch 13: 100%|██████████████████████████████████████████████████████| 337/337 [02:44<00:00,  2.06it/s, loss=0.0229, v_num=_run, val_loss=0.0627Metric loss improved by 0.002 >= min_delta = 0.0. New best sco
+re: 0.023                                          
+Current teacher forcing frequency is:  2                                                               
+Epoch 14:  90%|████████████████████████████████████████████████▋     | 304/337 [02:33<00:16,  1.99it/s, loss=0.0239, v_num=_run, val_loss=0.0627Current teacher forcing frequency is:  2                      
+                                                             | 0/34 [00:00<?, ?it/s]                   
+Epoch 14: 100%|██████████████████████████████████████████████████████| 337/337 [02:44<00:00,  2.05it/s, loss=0.0239, v_num=_run, val_loss=0.0557Current teacher forcing frequency is:  2                      
+
+Epoch 15:  90%|████████████████████████████████████████████████▋     | 304/337 [02:35<00:16,  1.97it/s, loss=0.0244, v_num=_run, val_loss=0.0557Current teacher forcing frequency is:  2                      
+                                                             | 0/34 [00:00<?, ?it/s]                   
+Epoch 15: 100%|██████████████████████████████████████████████████████| 337/337 [02:46<00:00,  2.03it/s, loss=0.0244, v_num=_run, val_loss=0.0575Current teacher forcing frequency is:  2                      
+
+Epoch 16:  90%|████████████████████████████████████████████████▋     | 304/337 [02:30<00:16,  2.03it/s, loss=0.0231, v_num=_run, val_loss=0.0575Current teacher forcing frequency is:  2                      
+                                                             | 0/34 [00:00<?, ?it/s]                   
+Epoch 16: 100%|██████████████████████████████████████████████████████| 337/337 [02:41<00:00,  2.09it/s, loss=0.0231, v_num=_run, val_loss=0.0631Current teacher forcing frequency is:  2                      
+
+Epoch 17:  90%|████████████████████████████████████████████████▋     | 304/337 [02:29<00:16,  2.04it/s, loss=0.0204, v_num=_run, val_loss=0.0631Current teacher forcing frequency is:  2                      
+                                                             | 0/34 [00:00<?, ?it/s]                   
+Epoch 17: 100%|██████████████████████████████████████████████████████| 337/337 [02:40<00:00,  2.10it/s, loss=0.0204, v_num=_run, val_loss=0.0632Metric loss improved by 0.002 >= min_delta = 0.0. New best sco
+re: 0.020                                          
+Current teacher forcing frequency is:  2                                                               
+Epoch 18:  90%|████████████████████████████████████████████████▋     | 304/337 [02:35<00:16,  1.96it/s, loss=0.0196, v_num=_run, val_loss=0.0632Current teacher forcing frequency is:  2                      
+                                                             | 0/34 [00:00<?, ?it/s]                   
+Epoch 18: 100%|██████████████████████████████████████████████████████| 337/337 [02:46<00:00,  2.03it/s, loss=0.0196, v_num=_run, val_loss=0.0654Metric loss improved by 0.001 >= min_delta = 0.0. New best sco
+re: 0.020                                          
+Current teacher forcing frequency is:  2                                                               
+Epoch 19:  90%|████████████████████████████████████████████████▋     | 304/337 [02:29<00:16,  2.04it/s, loss=0.0224, v_num=_run, val_loss=0.0654Current teacher forcing frequency is:  2                      
+                                                             | 0/34 [00:00<?, ?it/s]                   
+Epoch 19: 100%|██████████████████████████████████████████████████████| 337/337 [02:40<00:00,  2.10it/s, loss=0.0224, v_num=_run, val_loss=0.0617Current teacher forcing frequency is:  2                      
+
+Epoch 20:  90%|█████████████████████████████████████████████████▌     | 304/337 [02:33<00:16,  1.99it/s, loss=0.022, v_num=_run, val_loss=0.0617Current teacher forcing frequency is:  2                      
+                                                             | 0/34 [00:00<?, ?it/s]                   
+Epoch 20: 100%|███████████████████████████████████████████████████████| 337/337 [02:44<00:00,  2.05it/s, loss=0.022, v_num=_run, val_loss=0.0683Current teacher forcing frequency is:  2                      
+
+Epoch 21:  90%|████████████████████████████████████████████████▋     | 304/337 [02:32<00:16,  2.00it/s, loss=0.0218, v_num=_run, val_loss=0.0683Current teacher forcing frequency is:  2                      
+                                                             | 0/34 [00:00<?, ?it/s]                   
+Epoch 21: 100%|██████████████████████████████████████████████████████| 337/337 [02:44<00:00,  2.06it/s, loss=0.0218, v_num=_run, val_loss=0.0625Current teacher forcing frequency is:  2                      
+
+Epoch 22:  90%|█████████████████████████████████████████████████▌     | 304/337 [02:34<00:16,  1.98it/s, loss=0.017, v_num=_run, val_loss=0.0625Current teacher forcing frequency is:  2                      
+                                                             | 0/34 [00:00<?, ?it/s]                   
+Epoch 22: 100%|███████████████████████████████████████████████████████| 337/337 [02:45<00:00,  2.04it/s, loss=0.017, v_num=_run, val_loss=0.0605Metric loss improved by 0.003 >= min_delta = 0.0. New best sco
+re: 0.017                                          
+Current teacher forcing frequency is:  2                                                               
+Epoch 23:  90%|████████████████████████████████████████████████▋     | 304/337 [02:35<00:16,  1.96it/s, loss=0.0232, v_num=_run, val_loss=0.0605Current teacher forcing frequency is:  2                      
+                                                             | 0/34 [00:00<?, ?it/s]                   
+Epoch 23: 100%|███████████████████████████████████████████████████████| 337/337 [02:46<00:00,  2.03it/s, loss=0.0232, v_num=_run, val_loss=0.059Current teacher forcing frequency is:  2                      
+
+Epoch 24:  90%|██████████████████████████████████████████████████▌     | 304/337 [02:31<00:16,  2.01it/s, loss=0.019, v_num=_run, val_loss=0.059Current teacher forcing frequency is:  2                      
+                                                             | 0/34 [00:00<?, ?it/s]                   
+Epoch 24: 100%|███████████████████████████████████████████████████████| 337/337 [02:43<00:00,  2.07it/s, loss=0.019, v_num=_run, val_loss=0.0638Current teacher forcing frequency is:  2                      
+
+Epoch 25:  90%|████████████████████████████████████████████████▋     | 304/337 [02:35<00:16,  1.96it/s, loss=0.0202, v_num=_run, val_loss=0.0638Current teacher forcing frequency is:  2                      
+                                                             | 0/34 [00:00<?, ?it/s]                   
+Epoch 25: 100%|██████████████████████████████████████████████████████| 337/337 [02:46<00:00,  2.03it/s, loss=0.0202, v_num=_run, val_loss=0.0633Current teacher forcing frequency is:  2                      
+
+Epoch 26:  90%|████████████████████████████████████████████████▋     | 304/337 [02:35<00:16,  1.96it/s, loss=0.0244, v_num=_run, val_loss=0.0633Current teacher forcing frequency is:  2                      
+                                                             | 0/34 [00:00<?, ?it/s]                   
+Epoch 26: 100%|██████████████████████████████████████████████████████| 337/337 [02:46<00:00,  2.03it/s, loss=0.0244, v_num=_run, val_loss=0.0624Current teacher forcing frequency is:  2                      
+
+Epoch 27:  90%|████████████████████████████████████████████████▋     | 304/337 [02:29<00:16,  2.04it/s, loss=0.0183, v_num=_run, val_loss=0.0624Current teacher forcing frequency is:  2
+                                                             | 0/34 [00:00<?, ?it/s]                   
+Epoch 27: 100%|██████████████████████████████████████████████████████| 337/337 [02:40<00:00,  2.10it/s, loss=0.0183, v_num=_run, val_loss=0.0618Current teacher forcing frequency is:  2                      
+
+Epoch 28:  90%|████████████████████████████████████████████████▋     | 304/337 [02:36<00:16,  1.95it/s, loss=0.0224, v_num=_run, val_loss=0.0618Current teacher forcing frequency is:  2                      
+                                                             | 0/34 [00:00<?, ?it/s]                   
+Epoch 28: 100%|███████████████████████████████████████████████████████| 337/337 [02:47<00:00,  2.02it/s, loss=0.0224, v_num=_run, val_loss=0.068Current teacher forcing frequency is:  2                      
+
+Epoch 29:  90%|█████████████████████████████████████████████████▌     | 304/337 [02:30<00:16,  2.03it/s, loss=0.0216, v_num=_run, val_loss=0.068Current teacher forcing frequency is:  2                      
+                                                             | 0/34 [00:00<?, ?it/s]                   
+Epoch 29: 100%|██████████████████████████████████████████████████████| 337/337 [02:41<00:00,  2.09it/s, loss=0.0216, v_num=_run, val_loss=0.0625Current teacher forcing frequency is:  2                      
+
+Epoch 30:  90%|████████████████████████████████████████████████▋     | 304/337 [02:34<00:16,  1.98it/s, loss=0.0217, v_num=_run, val_loss=0.0625Current teacher forcing frequency is:  2                      
+                                                             | 0/34 [00:00<?, ?it/s]                   
+Epoch 30: 100%|██████████████████████████████████████████████████████| 337/337 [02:45<00:00,  2.04it/s, loss=0.0217, v_num=_run, val_loss=0.0659Current teacher forcing frequency is:  2                      
+
+Epoch 31:  90%|████████████████████████████████████████████████▋     | 304/337 [02:30<00:16,  2.03it/s, loss=0.0204, v_num=_run, val_loss=0.0659Current teacher forcing frequency is:  2                      
+                                                             | 0/34 [00:00<?, ?it/s]                   
+Epoch 31: 100%|██████████████████████████████████████████████████████| 337/337 [02:42<00:00,  2.09it/s, loss=0.0204, v_num=_run, val_loss=0.0689Current teacher forcing frequency is:  2                      
+
+Epoch 32:  90%|████████████████████████████████████████████████▋     | 304/337 [02:35<00:16,  1.96it/s, loss=0.0201, v_num=_run, val_loss=0.0689Current teacher forcing frequency is:  2                      
+                                                             | 0/34 [00:00<?, ?it/s]                   
+Epoch 32: 100%|██████████████████████████████████████████████████████| 337/337 [02:47<00:00,  2.02it/s, loss=0.0201, v_num=_run, val_loss=0.0646Monitored metric loss did not improve in the last 10 records. 
+Best score: 0.017. Signaling Trainer to stop.      
+Epoch 32: 100%|██████████████████████████████████████████████████████| 337/337 [02:47<00:00,  2.02it/s, loss=0.0201, v_num=_run, val_loss=0.0646]
