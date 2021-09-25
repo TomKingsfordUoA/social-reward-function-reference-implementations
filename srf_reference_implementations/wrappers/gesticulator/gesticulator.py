@@ -1,5 +1,5 @@
 import pymo.data
-from ..interfaces import CoSpeechGestureGenerator, Transcript
+from ...interfaces import CoSpeechGestureGenerator, Transcript
 
 
 class Gesticulator(CoSpeechGestureGenerator):

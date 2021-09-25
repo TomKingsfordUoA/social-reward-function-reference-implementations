@@ -41,6 +41,7 @@ def test_yoon2018_recovers_imports(sample_genea_transcript: GeneaTranscript) -> 
     assert sys.path == pythonpath_before
 
 
+@pytest.mark.xfail
 def test_gesticulator_wrapper(sample_genea_transcript: GeneaTranscript) -> None:
     gesticulator = Gesticulator()
     mocap_data = gesticulator.generate_gestures(transcript=sample_genea_transcript.transcript)
