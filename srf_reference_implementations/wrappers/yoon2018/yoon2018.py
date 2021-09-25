@@ -8,8 +8,8 @@ import sys
 import numpy as np
 import pymo.data
 
-from ..interfaces import CoSpeechGestureGenerator, Transcript
-from ..models import yoon2018
+from ...interfaces import CoSpeechGestureGenerator, Transcript
+from ...models import yoon2018
 
 
 def replace_module(name: str, path: str) -> None:
@@ -28,11 +28,11 @@ def replace_module(name: str, path: str) -> None:
 @contextlib.contextmanager
 def manage_dependencies():
     # Prepend paths to PYTHONPATH:
-    paths = [os.path.join(os.path.dirname(__file__), '../models/yoon2018/scripts')]
+    paths = [os.path.join(os.path.dirname(__file__), '../../models/yoon2018/scripts')]
     for path in reversed(paths):
         sys.path.insert(0, path)
 
-    pymo_path = os.path.join(os.path.dirname(__file__), '../models/yoon2018/scripts/pymo')
+    pymo_path = os.path.join(os.path.dirname(__file__), '../../models/yoon2018/scripts/pymo')
     pymo_modules = [
         os.path.splitext(filename)[0]
         for filename in os.listdir(pymo_path)
@@ -81,7 +81,7 @@ class Yoon2018(CoSpeechGestureGenerator):
     def __init__(self) -> None:
         with manage_dependencies():
             # nb: importlib.resources doesn't support relative packages hence we resolve an absolute package
-            yoon2018_resources_package = importlib.import_module("..models.yoon2018.resource", package=__package__).__name__
+            yoon2018_resources_package = importlib.import_module(".resources", package=__package__).__name__
             with importlib.resources.path(yoon2018_resources_package, 'baseline_icra19_checkpoint_100.bin') as p_checkpoint:
                 checkpoint_path = str(p_checkpoint)
             with importlib.resources.path(yoon2018_resources_package, 'vocab_cache.pkl') as p_vocab_cache:
