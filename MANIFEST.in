@@ -1,0 +1,15 @@
+include *.txt
+recursive-include pymo *.css
+recursive-include pymo *.html
+recursive-include pymo *.js
+recursive-include scripts *.sh
+recursive-include srf_reference_implementations *.bin
+recursive-include srf_reference_implementations *.json
+recursive-include srf_reference_implementations *.md
+recursive-include srf_reference_implementations *.pkl
+recursive-include srf_reference_implementations *.py
+recursive-include srf_reference_implementations *.sav
+recursive-include srf_reference_implementations *.sh
+recursive-include srf_reference_implementations *.txt
+recursive-include srf_reference_implementations *.typed
+recursive-include srf_reference_implementations *.yml
