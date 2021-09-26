@@ -1,1 +1,1 @@
-from .yoon2018 import Yoon2018
+from .yoon2018_wrapper import Yoon2018

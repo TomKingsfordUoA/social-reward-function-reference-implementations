@@ -1,1 +1,1 @@
-from .gesticulator import Gesticulator
+from .gesticulator_wrapper import Gesticulator
