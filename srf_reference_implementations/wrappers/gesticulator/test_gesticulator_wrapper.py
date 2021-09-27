@@ -1,8 +1,6 @@
 import os
 import sys
 
-import pytest
-
 import pymo
 from .gesticulator_wrapper import Gesticulator
 from ...interfaces import GeneaTranscript
@@ -11,14 +9,13 @@ from ...interfaces import GeneaTranscript
 def test_gesticulator_wrapper(sample_genea_transcript_short: GeneaTranscript) -> None:
     gesticulator = Gesticulator()
     mocap_data = gesticulator.generate_gestures(transcript=sample_genea_transcript_short.transcript)
-    assert mocap_data.values.shape == (10, 174)
 
+    # Shape is correct:
+    assert mocap_data.values.shape == (80, 174)
 
-@pytest.mark.xfail
-def test_gesticulator_wrapper_against_known_bvh() -> None:
-    # since we had to modify a substantial amount of inference-time code, it's worth comparing against a known BVH prediction
-    # to ensure correctness
-    raise NotImplementedError()
+    # Timings are correct:
+    assert abs(mocap_data.values.index[0].total_seconds() * mocap_data.framerate - sample_genea_transcript_short.transcript.words[0].start_time) < 0.5
+    assert abs(mocap_data.values.index[-1].total_seconds() * mocap_data.framerate - sample_genea_transcript_short.transcript.words[-1].end_time) < 0.5
 
 
 def test_gesticulator_recovers_imports(sample_genea_transcript_short: GeneaTranscript) -> None:

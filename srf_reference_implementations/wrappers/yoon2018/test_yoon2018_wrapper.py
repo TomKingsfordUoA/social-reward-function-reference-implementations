@@ -9,7 +9,13 @@ from ...interfaces import GeneaTranscript
 def test_yoon2018_wrapper(sample_genea_transcript_short: GeneaTranscript) -> None:
     yoon2018 = Yoon2018()
     mocap_data = yoon2018.generate_gestures(transcript=sample_genea_transcript_short.transcript)
+
+    # Shape is correct:
     assert mocap_data.values.shape == (90, 174)
+
+    # Timings are correct:
+    assert abs(mocap_data.values.index[0].total_seconds() * mocap_data.framerate - sample_genea_transcript_short.transcript.words[0].start_time) < 0.5
+    assert abs(mocap_data.values.index[-1].total_seconds() * mocap_data.framerate - sample_genea_transcript_short.transcript.words[-1].end_time) < 0.5
 
 
 def test_yoon2018_recovers_imports(sample_genea_transcript_short: GeneaTranscript) -> None:
