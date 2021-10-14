@@ -1,25 +1,25 @@
 import importlib
 import importlib.resources
 import os
+import pickle
 
 import joblib
 import torch
+import typing
 import yaml
 import numpy as np
 
 import pymo.data
-from ..utils import manage_dependencies
 from ...interfaces import CoSpeechGestureGenerator, Transcript
-
-_manage_dependencies = lambda: manage_dependencies(
-    pythonpaths=[],
-    pymo_path=os.path.join(os.path.dirname(__file__), '../../models/gesticulator/gesticulator/pymo'),
-)
 
 
 class Gesticulator(CoSpeechGestureGenerator):
     def __init__(self) -> None:
-        with _manage_dependencies():
+        super().__init__(
+            pythonpaths=[],
+            pymo_path=os.path.join(os.path.dirname(__file__), '../../models/gesticulator/gesticulator/pymo'),
+        )
+        with self.manage_dependencies():
             from ...models.gesticulator.gesticulator.data_processing.process_dataset import create_embedding
             from ...models.gesticulator.gesticulator.model.model import GesticulatorModel
 
@@ -43,8 +43,8 @@ class Gesticulator(CoSpeechGestureGenerator):
                 inference_mode=True,
             ).eval()
 
-    def generate_gestures(self, transcript: Transcript) -> pymo.data.MocapData:
-        with _manage_dependencies():
+    def generate_gestures(self, transcript: Transcript, serialize: bool = False) -> typing.Tuple[pymo.data.MocapData, typing.Optional[bytes]]:
+        with self.manage_dependencies():
             from ...interfaces import GeneaTranscript
             from ...models.gesticulator.gesticulator.data_processing.text_features.parse_json_transcript import \
                 encode_json_transcript_with_bert
@@ -91,4 +91,9 @@ class Gesticulator(CoSpeechGestureGenerator):
             # Correct framerate:
             mocap_data.framerate = (transcript.words[-1].end_time - transcript.words[0].start_time) / mocap_data.values.shape[0]
 
-            return mocap_data
+            # Optionally, serialize:
+            s_mocap_data = None
+            if serialize:
+                s_mocap_data = pickle.dumps(mocap_data)
+
+            return mocap_data, s_mocap_data

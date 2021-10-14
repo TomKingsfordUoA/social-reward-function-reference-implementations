@@ -4,21 +4,20 @@ import os
 import pickle
 
 import numpy as np
+import typing
 
 import pymo.data
-from ..utils import manage_dependencies
 from ...interfaces import CoSpeechGestureGenerator, Transcript
 from ...models import yoon2018
-
-_manage_dependencies = lambda: manage_dependencies(
-    pythonpaths=[os.path.join(os.path.dirname(__file__), '../../models/yoon2018/scripts')],
-    pymo_path=os.path.join(os.path.dirname(__file__), '../../models/yoon2018/scripts/pymo'),
-)
 
 
 class Yoon2018(CoSpeechGestureGenerator):
     def __init__(self) -> None:
-        with _manage_dependencies():
+        super().__init__(
+            pythonpaths=[os.path.join(os.path.dirname(__file__), '../../models/yoon2018/scripts')],
+            pymo_path=os.path.join(os.path.dirname(__file__), '../../models/yoon2018/scripts/pymo'),
+        )
+        with self.manage_dependencies():
             # nb: importlib.resources doesn't support relative packages hence we resolve an absolute package
             yoon2018_resources_package = importlib.import_module(".resources", package=__package__).__name__
             with importlib.resources.path(yoon2018_resources_package, 'baseline_icra19_checkpoint_100.bin') as p_checkpoint:
@@ -37,8 +36,8 @@ class Yoon2018(CoSpeechGestureGenerator):
             with open(vocab_cache_path, 'rb') as f:
                 self._lang_model = pickle.load(f)
 
-    def generate_gestures(self, transcript: Transcript) -> pymo.data.MocapData:
-        with _manage_dependencies():
+    def generate_gestures(self, transcript: Transcript, serialize: bool = False) -> typing.Tuple[pymo.data.MocapData, typing.Optional[bytes]]:
+        with self.manage_dependencies():
             word_list = [(timed_word.word, timed_word.start_time, timed_word.end_time)
                          for timed_word in transcript.words
                          if len(timed_word.word) > 0]
@@ -61,4 +60,9 @@ class Yoon2018(CoSpeechGestureGenerator):
             # Transform poses to MocapData:
             mocap_data = yoon2018.inference.make_mocap_data(out_poses)
 
-        return mocap_data
+            # Optionally, serialize:
+            s_mocap_data = None
+            if serialize:
+                s_mocap_data = pickle.dumps(mocap_data)
+
+            return mocap_data, s_mocap_data

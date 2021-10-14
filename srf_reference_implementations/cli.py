@@ -3,6 +3,8 @@ import importlib
 import json
 import os
 import pathlib
+import pickle
+import sys
 
 from pymo.writers import BVHWriter
 from srf_reference_implementations.interfaces.transcripts import GeneaTranscript
@@ -30,18 +32,25 @@ def main() -> None:
         help='Path of an empty or non-existent directory to place outputs',
         type=pathlib.Path,
     )
+    parser.add_argument(
+        '--bvh_gestures_topic',
+        help='The ROS topic to publish BVH-format gestures to',
+        type=str,
+        default='gestures_bvh',
+    )
     args = parser.parse_args()
 
     # Check args:
-    if args.use_ros and args.transcript:
-        raise ValueError('use_ros and transcript are mutually exclusive')
-    if args.use_ros and args.output_dir:
-        raise ValueError('use_ros and output_dir are mutually exclusive')
-    if not args.use_ros and not args.transcript:
-        raise ValueError('either use_ros or transcript must be specified')
+    # TODO(TK): for ros, transcript should be acquired by subscribing to a relevant ROS topic
+    if args.transcript is None:
+        raise ValueError('transcript must be specified')
+    # if not ((args.use_ros is not None) ^ (args.transcript is not None)):
+    #     raise ValueError('use_ros and transcript are mutually exclusive and one is required')
+    if not (args.use_ros ^ (args.output_dir is not None)):
+        raise ValueError('use_ros and output_dir are mutually exclusive and one is required')
     if not args.use_ros and args.output_dir is None:
         args.output_dir = 'bvh_output'
-    if os.path.isdir(args.output_dir) and os.listdir(args.output_dir):
+    if not args.use_ros and os.path.isdir(args.output_dir) and os.listdir(args.output_dir):
         raise ValueError(f'output_dir must be empty or non-existent: {args.output_dir}')
 
     # Load model:
@@ -51,7 +60,26 @@ def main() -> None:
     model = cls()
 
     if args.use_ros:
-        raise NotImplementedError()  # FIXME(TK): implement
+        # ROS is not generally required, so do a just-in-time import. rospy will be provided on PYTHONPATH by the ROS environment
+        # by a command like `source /opt/ros/melodic/setup.py`
+        import rospy
+        from std_msgs.msg import String
+
+        # Read the transcript:
+        # TODO(TK): for ros, transcript should be acquired by subscribing to a relevant ROS topic
+        with open(args.transcript) as f_transcript:
+            d_transcript = json.load(f_transcript)
+            genea_transcript = GeneaTranscript.from_dict(d_transcript)
+
+        # Make prediction:
+        mocap_data, s_mocap_data = model.generate_gestures(transcript=genea_transcript.transcript, serialize=True)
+
+        pub = rospy.Publisher(args.bvh_gestures_topic, String, queue_size=10)
+        model_name = args.model.split(".")[-1]
+        rospy.init_node(f'srf_{model_name}', anonymous=True)
+        msg = String()
+        msg.data = s_mocap_data.decode('latin1')
+        pub.publish(msg)
     else:
         # Read the transcript:
         with open(args.transcript) as f_transcript:
@@ -59,7 +87,7 @@ def main() -> None:
             genea_transcript = GeneaTranscript.from_dict(d_transcript)
 
         # Make prediction:
-        mocap_data = model.generate_gestures(transcript=genea_transcript.transcript)
+        mocap_data, _ = model.generate_gestures(transcript=genea_transcript.transcript, serialize=False)
 
         # Write prediction to BVH file:
         if not os.path.isdir(args.output_dir):

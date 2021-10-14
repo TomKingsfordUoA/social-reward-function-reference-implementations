@@ -24,16 +24,22 @@ These reference implementations exist as submodules, coupled with wrappers to im
       # Clone submodules:
       git submodule init
       git submodule update
-
+   
       # Establish a virtual environment:
       python3 -m venv venv
       source venv/bin/activate
       pip install -r requirements.txt
       pip install -r build_requirements.txt
-
+   
       # Run tests and install:
       pip install . 
       pytest .
    
       # CLI:
       srf_ref -h
+
+## ROS Integration
+
+A `dockerfile` is provided to provide support for integration with ROS.
+
+`docker run -it --rm --network host $(docker build -q .) python3 srf_reference_implementations/cli.py --use_ros -t srf_reference_implementations/interfaces/test_resources/GENEA_sample_transcript_cleaned.json`
