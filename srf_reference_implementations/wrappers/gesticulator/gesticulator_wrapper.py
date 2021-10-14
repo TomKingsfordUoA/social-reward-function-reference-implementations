@@ -29,7 +29,7 @@ class Gesticulator(CoSpeechGestureGenerator):
                 model = '20210925_text_only_early_stopping'
                 checkpoint_path = os.path.join(p_resources, model, 'trained_model.ckpt')
                 with open(os.path.join(p_resources, model, 'hparams.yaml')) as f_hparams:
-                    hparams = yaml.load(f_hparams)
+                    hparams = yaml.safe_load(f_hparams, )
                 hparams['result_dir'] = str(p_resources)
             self._hparams = hparams
 
