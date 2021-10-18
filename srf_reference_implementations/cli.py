@@ -3,11 +3,10 @@ import importlib
 import json
 import os
 import pathlib
-import pickle
-import sys
 
 from pymo.writers import BVHWriter
 from srf_reference_implementations.interfaces.transcripts import GeneaTranscript
+from srf_reference_implementations.interfaces.marshalling import mocap_data_to_json
 
 
 def main() -> None:
@@ -65,6 +64,9 @@ def main() -> None:
         import rospy
         from std_msgs.msg import String
 
+        model_name = args.model.split(".")[-1]
+        rospy.init_node(f'srf_{model_name}', anonymous=True)
+
         # Read the transcript:
         # TODO(TK): for ros, transcript should be acquired by subscribing to a relevant ROS topic
         with open(args.transcript) as f_transcript:
@@ -72,13 +74,14 @@ def main() -> None:
             genea_transcript = GeneaTranscript.from_dict(d_transcript)
 
         # Make prediction:
-        mocap_data, s_mocap_data = model.generate_gestures(transcript=genea_transcript.transcript, serialize=True)
+        mocap_data = model.generate_gestures(transcript=genea_transcript.transcript)
 
         pub = rospy.Publisher(args.bvh_gestures_topic, String, queue_size=10)
-        model_name = args.model.split(".")[-1]
-        rospy.init_node(f'srf_{model_name}', anonymous=True)
         msg = String()
-        msg.data = s_mocap_data.decode('latin1')
+        msg.data = json.dumps(mocap_data_to_json(mocap_data))
+        rospy.loginfo('Publishing...')
+        import time
+        time.sleep(0.1) # FIXME(TK): For some reason this is required...
         pub.publish(msg)
     else:
         # Read the transcript:
@@ -87,7 +90,7 @@ def main() -> None:
             genea_transcript = GeneaTranscript.from_dict(d_transcript)
 
         # Make prediction:
-        mocap_data, _ = model.generate_gestures(transcript=genea_transcript.transcript, serialize=False)
+        mocap_data = model.generate_gestures(transcript=genea_transcript.transcript)
 
         # Write prediction to BVH file:
         if not os.path.isdir(args.output_dir):

@@ -16,11 +16,7 @@ class CoSpeechGestureGenerator(abc.ABC):
         self._pymo_path = pymo_path
 
     @abc.abstractmethod
-    def generate_gestures(self, transcript: Transcript, serialize: bool = False) -> typing.Tuple[pymo.data.MocapData, typing.Optional[bytes]]:
-        # TODO(TK): Ideally, serialization this should be able to be done by the caller. However, Pickle raises an error if the pickled
-        #  object is of a different class to the class in sys.modules. Probably possible to cache the loaded class in
-        #  manage_dependencies so multiple calls to manage_dependencies yield the exact same module in sys.modules, but
-        #  this is untested.
+    def generate_gestures(self, transcript: Transcript) -> pymo.data.MocapData:
         raise NotImplementedError()
 
     @contextlib.contextmanager

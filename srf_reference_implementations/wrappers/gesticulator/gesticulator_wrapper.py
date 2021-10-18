@@ -2,14 +2,14 @@ import importlib
 import importlib.resources
 import os
 import pickle
+import typing
 
 import joblib
 import torch
-import typing
 import yaml
 import numpy as np
-
 import pymo.data
+
 from ...interfaces import CoSpeechGestureGenerator, Transcript
 
 
@@ -29,7 +29,7 @@ class Gesticulator(CoSpeechGestureGenerator):
                 model = '20210925_text_only_early_stopping'
                 checkpoint_path = os.path.join(p_resources, model, 'trained_model.ckpt')
                 with open(os.path.join(p_resources, model, 'hparams.yaml')) as f_hparams:
-                    hparams = yaml.safe_load(f_hparams, )
+                    hparams = yaml.safe_load(f_hparams)
                 hparams['result_dir'] = str(p_resources)
             self._hparams = hparams
 
@@ -43,7 +43,7 @@ class Gesticulator(CoSpeechGestureGenerator):
                 inference_mode=True,
             ).eval()
 
-    def generate_gestures(self, transcript: Transcript, serialize: bool = False) -> typing.Tuple[pymo.data.MocapData, typing.Optional[bytes]]:
+    def generate_gestures(self, transcript: Transcript) -> pymo.data.MocapData:
         with self.manage_dependencies():
             from ...interfaces import GeneaTranscript
             from ...models.gesticulator.gesticulator.data_processing.text_features.parse_json_transcript import \
@@ -91,9 +91,4 @@ class Gesticulator(CoSpeechGestureGenerator):
             # Correct framerate:
             mocap_data.framerate = (transcript.words[-1].end_time - transcript.words[0].start_time) / mocap_data.values.shape[0]
 
-            # Optionally, serialize:
-            s_mocap_data = None
-            if serialize:
-                s_mocap_data = pickle.dumps(mocap_data)
-
-            return mocap_data, s_mocap_data
+            return mocap_data

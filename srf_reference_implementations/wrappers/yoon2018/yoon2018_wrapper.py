@@ -36,7 +36,7 @@ class Yoon2018(CoSpeechGestureGenerator):
             with open(vocab_cache_path, 'rb') as f:
                 self._lang_model = pickle.load(f)
 
-    def generate_gestures(self, transcript: Transcript, serialize: bool = False) -> typing.Tuple[pymo.data.MocapData, typing.Optional[bytes]]:
+    def generate_gestures(self, transcript: Transcript) -> pymo.data.MocapData:
         with self.manage_dependencies():
             word_list = [(timed_word.word, timed_word.start_time, timed_word.end_time)
                          for timed_word in transcript.words
@@ -60,9 +60,4 @@ class Yoon2018(CoSpeechGestureGenerator):
             # Transform poses to MocapData:
             mocap_data = yoon2018.inference.make_mocap_data(out_poses)
 
-            # Optionally, serialize:
-            s_mocap_data = None
-            if serialize:
-                s_mocap_data = pickle.dumps(mocap_data)
-
-            return mocap_data, s_mocap_data
+            return mocap_data

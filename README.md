@@ -42,4 +42,9 @@ These reference implementations exist as submodules, coupled with wrappers to im
 
 A `dockerfile` is provided to provide support for integration with ROS.
 
-`docker run -it --rm --network host $(docker build -q .) python3 srf_reference_implementations/cli.py --use_ros -t srf_reference_implementations/interfaces/test_resources/GENEA_sample_transcript_cleaned.json`
+A reference stack is provided in `docker-compose.yml`:
+1. Install [docker-compose](https://docs.docker.com/compose/install/) (v2.0+)
+2. Run a virtual robot: `"/opt/Softbank Robotics/Choregraphe Suite 2.8/bin/naoqi-bin" -p 9559 -b 0.0.0.0`
+3. Connect to the virtual robot with [Choreographe](https://developer.softbankrobotics.com/nao6/naoqi-developer-guide/choregraphe-suite/choregraphe-suite-installation-guide)
+for visualisation.
+4. `docker-compose up --build --remove-orphans`
