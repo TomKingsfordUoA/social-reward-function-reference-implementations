@@ -1,8 +1,10 @@
 import argparse
+import base64
 import importlib
 import json
 import os
 import pathlib
+import typing
 
 from pymo.writers import BVHWriter
 from srf_reference_implementations.interfaces.transcripts import GeneaTranscript
@@ -37,15 +39,18 @@ def main() -> None:
         type=str,
         default='gestures_bvh',
     )
+    parser.add_argument(
+        '--dialogue_topic',
+        help='The ROS topic to subscribe to for transcripts',
+        type=str,
+        default='dialogue',
+    )
     args = parser.parse_args()
 
     # Check args:
-    # TODO(TK): for ros, transcript should be acquired by subscribing to a relevant ROS topic
-    if args.transcript is None:
-        raise ValueError('transcript must be specified')
-    # if not ((args.use_ros is not None) ^ (args.transcript is not None)):
-    #     raise ValueError('use_ros and transcript are mutually exclusive and one is required')
-    if not (args.use_ros ^ (args.output_dir is not None)):
+    if not ((args.use_ros is not None) ^ (args.transcript is not None)):
+        raise ValueError('use_ros and transcript are mutually exclusive and one is required')
+    if not ((args.use_ros is not None) ^ (args.output_dir is not None)):
         raise ValueError('use_ros and output_dir are mutually exclusive and one is required')
     if not args.use_ros and args.output_dir is None:
         args.output_dir = 'bvh_output'
@@ -64,25 +69,29 @@ def main() -> None:
         import rospy
         from std_msgs.msg import String
 
-        model_name = args.model.split(".")[-1]
-        rospy.init_node(f'srf_{model_name}', anonymous=True)
+        def dialogue_callback(data: String, args: typing.List[typing.Any]) -> None:
+            pub, = args
 
-        # Read the transcript:
-        # TODO(TK): for ros, transcript should be acquired by subscribing to a relevant ROS topic
-        with open(args.transcript) as f_transcript:
-            d_transcript = json.load(f_transcript)
+            # Read the transcript:
+            s_transcript = base64.b64decode(data.data)
+            d_transcript = json.loads(s_transcript)
             genea_transcript = GeneaTranscript.from_dict(d_transcript)
 
-        # Make prediction:
-        mocap_data = model.generate_gestures(transcript=genea_transcript.transcript)
+            # Make prediction:
+            mocap_data = model.generate_gestures(transcript=genea_transcript.transcript)
 
+            msg = String()
+            msg.data = json.dumps(mocap_data_to_json(mocap_data))
+            rospy.loginfo('Publishing...')
+            import time
+            time.sleep(0.1)  # TODO(TK): For some reason this is required...
+            pub.publish(msg)
+
+        model_name = args.model.split(".")[-1]
+        rospy.init_node(f'srf_{model_name}', anonymous=True)
         pub = rospy.Publisher(args.bvh_gestures_topic, String, queue_size=10)
-        msg = String()
-        msg.data = json.dumps(mocap_data_to_json(mocap_data))
-        rospy.loginfo('Publishing...')
-        import time
-        time.sleep(0.1) # FIXME(TK): For some reason this is required...
-        pub.publish(msg)
+        rospy.Subscriber(args.dialogue_topic, String, dialogue_callback, (pub,))
+        rospy.spin()
     else:
         # Read the transcript:
         with open(args.transcript) as f_transcript:

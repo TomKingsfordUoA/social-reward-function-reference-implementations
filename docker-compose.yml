@@ -32,13 +32,13 @@ services:
     command: bash -c "sleep 5; python nao_gestures/cli.py --use_ros --dest_ip='${ROS_MASTER_HOSTNAME}' --dest_port=11311 --my_ip='${HOSTNAME_NAO_GESTURES}'"
 
   # provided for debug purposes only...
-  topic-subscriber:
+  joint-angles-subscriber:
     build:
       context: https://github.com/TomKingsfordUoA/NaoGestures.git#master
       dockerfile: Dockerfile
     environment:
       - ROS_MASTER_URI
-      - ROS_HOSTNAME=topic-subscriber
+      - ROS_HOSTNAME=$HOSTNAME_JOINT_ANGLES_SUBSCRIBER
     depends_on:
       - roscore
     command: bash -c "sleep 5; rostopic echo /joint_angles"
@@ -50,7 +50,16 @@ services:
       - ROS_HOSTNAME=$HOSTNAME_CO_SPEECH_GESTURE_GENERATOR
     depends_on:
       - roscore
-    command: bash -c "sleep 10; python3 srf_reference_implementations/cli.py --use_ros -m srf_reference_implementations.Yoon2018 -t srf_reference_implementations/interfaces/test_resources/GENEA_sample_transcript_cleaned.json"
+    command: bash -c "sleep 10; python3 srf_reference_implementations/cli.py --use_ros -m srf_reference_implementations.Yoon2018"
+
+  dialogue-publisher:
+    build: .
+    environment:
+      - ROS_MASTER_URI
+      - ROS_HOSTNAME=$HOSTNAME_DIALOGUE_PUBLISHER
+    depends_on:
+      - roscore
+    command: bash -c "sleep 10;  rostopic pub /dialogue std_msgs/String $$(cat srf_reference_implementations/interfaces/test_resources/GENEA_sample_transcript_small.json | base64 --wrap=0) -1"
 
 networks:
   default:

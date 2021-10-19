@@ -23,3 +23,8 @@ rm -r test_output_dir || true
 mkdir test_output_dir
 PYTHONPATH=$(pwd) python3 srf_reference_implementations/cli.py -t srf_reference_implementations/interfaces/test_resources/GENEA_sample_transcript.json -o test_output_dir
 rm -r test_output_dir || true
+
+echo '=== Check for FIXME comments ==='
+(! grep -r -i -e "#\s*FIXME" . --exclude-dir=venv --exclude-dir=pymo) || exit 1
+
+echo "SUCCESS"

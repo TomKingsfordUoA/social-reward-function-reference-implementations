@@ -1,0 +1,192 @@
+[
+    {
+        "alternatives": [
+            {
+                "confidence": 0.8893811106681824,
+                "words": [
+                    {
+                        "start_time": "0.100s",
+                        "end_time": "0.500s",
+                        "word": "really"
+                    },
+                    {
+                        "start_time": "0.500s",
+                        "end_time": "0.700s",
+                        "word": "really"
+                    },
+                    {
+                        "start_time": "0.700s",
+                        "end_time": "1.400s",
+                        "word": "warm"
+                    },
+                    {
+                        "start_time": "1.600s",
+                        "end_time": "1.800s",
+                        "word": "the"
+                    },
+                    {
+                        "start_time": "1.800s",
+                        "end_time": "2.100s",
+                        "word": "kind"
+                    },
+                    {
+                        "start_time": "2.100s",
+                        "end_time": "2.600s",
+                        "word": "lady"
+                    },
+                    {
+                        "start_time": "3.400s",
+                        "end_time": "3.700s",
+                        "word": "until"
+                    },
+                    {
+                        "start_time": "3.700s",
+                        "end_time": "3.800s",
+                        "word": "you"
+                    },
+                    {
+                        "start_time": "3.800s",
+                        "end_time": "3.900s",
+                        "word": "get"
+                    },
+                    {
+                        "start_time": "3.900s",
+                        "end_time": "4s",
+                        "word": "her"
+                    },
+                    {
+                        "start_time": "4s",
+                        "end_time": "4.300s",
+                        "word": "into"
+                    },
+                    {
+                        "start_time": "4.300s",
+                        "end_time": "4.300s",
+                        "word": "a"
+                    },
+                    {
+                        "start_time": "4.300s",
+                        "end_time": "4.700s",
+                        "word": "car"
+                    },
+                    {
+                        "start_time": "4.800s",
+                        "end_time": "4.800s",
+                        "word": "I"
+                    },
+                    {
+                        "start_time": "4.800s",
+                        "end_time": "5s",
+                        "word": "tell"
+                    },
+                    {
+                        "start_time": "5s",
+                        "end_time": "5.100s",
+                        "word": "you"
+                    },
+                    {
+                        "start_time": "5.100s",
+                        "end_time": "5.500s",
+                        "word": "like"
+                    },
+                    {
+                        "start_time": "5.500s",
+                        "end_time": "5.600s",
+                        "word": "she"
+                    },
+                    {
+                        "start_time": "5.600s",
+                        "end_time": "5.700s",
+                        "word": "is"
+                    },
+                    {
+                        "start_time": "5.700s",
+                        "end_time": "5.800s",
+                        "word": "the"
+                    },
+                    {
+                        "start_time": "5.800s",
+                        "end_time": "6s",
+                        "word": "most"
+                    },
+                    {
+                        "start_time": "6s",
+                        "end_time": "6.400s",
+                        "word": "sweet"
+                    },
+                    {
+                        "start_time": "6.400s",
+                        "end_time": "6.900s",
+                        "word": "wonderful"
+                    },
+                    {
+                        "start_time": "6.900s",
+                        "end_time": "7.100s",
+                        "word": "lady."
+                    },
+                    {
+                        "start_time": "7.100s",
+                        "end_time": "7.200s",
+                        "word": "but"
+                    },
+                    {
+                        "start_time": "7.200s",
+                        "end_time": "7.300s",
+                        "word": "as"
+                    },
+                    {
+                        "start_time": "7.300s",
+                        "end_time": "7.500s",
+                        "word": "soon"
+                    },
+                    {
+                        "start_time": "7.500s",
+                        "end_time": "7.500s",
+                        "word": "as"
+                    },
+                    {
+                        "start_time": "7.500s",
+                        "end_time": "7.600s",
+                        "word": "she"
+                    },
+                    {
+                        "start_time": "7.600s",
+                        "end_time": "7.800s",
+                        "word": "gets"
+                    },
+                    {
+                        "start_time": "7.800s",
+                        "end_time": "7.900s",
+                        "word": "into"
+                    },
+                    {
+                        "start_time": "7.900s",
+                        "end_time": "8.100s",
+                        "word": "a"
+                    },
+                    {
+                        "start_time": "8.100s",
+                        "end_time": "8.300s",
+                        "word": "car"
+                    },
+                    {
+                        "start_time": "8.300s",
+                        "end_time": "8.400s",
+                        "word": "she"
+                    },
+                    {
+                        "start_time": "8.400s",
+                        "end_time": "8.500s",
+                        "word": "is"
+                    },
+                    {
+                        "start_time": "8.500s",
+                        "end_time": "8.900s",
+                        "word": "like"
+                    }
+                ]
+            }
+        ],
+        "language_code": "en-us"
+    }
+]

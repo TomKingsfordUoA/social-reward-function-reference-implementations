@@ -40,7 +40,7 @@ These reference implementations exist as submodules, coupled with wrappers to im
 
 ## ROS Integration
 
-A `dockerfile` is provided to provide support for integration with ROS.
+ROS integration is provided and enabled by the `--use_ros` flag.
 
 A reference stack is provided in `docker-compose.yml`:
 1. Install [docker-compose](https://docs.docker.com/compose/install/) (v2.0+)
@@ -48,3 +48,11 @@ A reference stack is provided in `docker-compose.yml`:
 3. Connect to the virtual robot with [Choreographe](https://developer.softbankrobotics.com/nao6/naoqi-developer-guide/choregraphe-suite/choregraphe-suite-installation-guide)
 for visualisation.
 4. `docker-compose up --build --remove-orphans`
+
+Transcripts may be provided by publishing to the `/dialogue` topic. The topic name may be configured as desired.
+The data must be a base64 encoded JSON file, following the GENEA transcript schema. An example is provided in the 
+`dialogue-publisher` node in the `docker-compose.yml` file.
+
+Gestures are published to the `/gestures_bvh` topic. The topic name may be configured as desired. The data is a JSON 
+serialization of a `pymo.data.MocapData` object. In the `docker-compose.yml` file, a `nao-gestures` service consumes
+this topic.
