@@ -26,7 +26,7 @@ These reference implementations exist as submodules, coupled with wrappers to im
       git submodule update
    
       # Establish a virtual environment:
-      python3 -m venv venv
+      python3.7 -m venv venv
       source venv/bin/activate
       pip install -r requirements.txt
       pip install -r build_requirements.txt
@@ -37,6 +37,13 @@ These reference implementations exist as submodules, coupled with wrappers to im
    
       # CLI:
       srf_ref -h
+
+## Generating a transcript
+
+In general, co-speech generation systems require the start and end timestamps of each word in dialogue to be given. 
+These timestamps are used by at least some of the provided implementations. If you wish to generate a transcript with
+equally spaced words (likely for testing purposes), you may use the script `scripts/generate_simple_transcript.py`. This
+will generate a transcript file which can be provided to the CLI.
 
 ## ROS Integration
 
