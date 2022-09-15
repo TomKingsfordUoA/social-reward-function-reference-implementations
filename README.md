@@ -28,8 +28,9 @@ These reference implementations exist as submodules, coupled with wrappers to im
       # Establish a virtual environment:
       python3.7 -m venv venv
       source venv/bin/activate
-      pip install -r requirements.txt
-      pip install -r build_requirements.txt
+      pip install -U pip
+      pip install pip-tools
+      pip-sync requirements.txt build_requirements.txt
    
       # Run tests and install:
       pip install . 
@@ -55,3 +56,9 @@ A reference stack is provided in `docker-compose.yml`:
 3. Connect to the virtual robot with [Choreographe](https://developer.softbankrobotics.com/nao6/naoqi-developer-guide/choregraphe-suite/choregraphe-suite-installation-guide)
 for visualisation.
 4. `docker-compose up --build --remove-orphans`
+
+## Requirements
+
+Requirements are managed with `pip-tools`. A minimal set of dependencies with maximally broad versions is defined in
+`requirements.in`. A working set of dependencies with pinned versions is defined in `requirements.txt`.
+This latter file is built by running `pip-compile requirements.in`. The same is true for build requirements.
